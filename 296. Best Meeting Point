@@ -1,0 +1,40 @@
+A group of two or more people wants to meet and minimize the total travel distance. You are given a 2D grid of values 0 or 1, where each 1 marks the home of someone in the group. The distance is calculated using Manhattan Distance, where distance(p1, p2) = |p2.x - p1.x| + |p2.y - p1.y|.
+
+For example, given three people living at (0,0), (0,4), and (2,2):
+
+1 - 0 - 0 - 0 - 1
+|   |   |   |   |
+0 - 0 - 0 - 0 - 0
+|   |   |   |   |
+0 - 0 - 1 - 0 - 0
+The point (0,2) is an ideal meeting point, as the total travel distance of 2+2+2=6 is minimal. So return 6.
+
+
+
+class Solution {
+    //median is the optimal solution given both odd-length array and even-length array
+    public int minTotalDistance(int[][] grid) {
+        List<Integer> listi = new ArrayList<>();
+        List<Integer> listj = new ArrayList<>();
+        for(int i = 0; i < grid.length; i++) {
+            for(int j = 0; j < grid[0].length; j++) {
+                if(grid[i][j] == 1) {
+                    listi.add(i);
+                    listj.add(j);
+                }
+            }
+        }
+        return getMedian(listi) + getMedian(listj);
+    }
+    private int getMedian(List<Integer> list) {
+        Collections.sort(list);
+        int res = 0;
+        int i = 0, j = list.size() - 1;
+        while(i < j) {
+            res += list.get(j) - list.get(i);
+            j--;
+            i++;
+        }
+        return res;
+    }
+}
